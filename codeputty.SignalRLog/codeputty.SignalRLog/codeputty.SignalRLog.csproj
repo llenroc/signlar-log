@@ -80,7 +80,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FakeLogGenerator.cs" />
-    <Compile Include="Models\LogManager.cs" />
+    <Compile Include="Models\LogEndpoint.cs" />
     <Compile Include="Models\SimpleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

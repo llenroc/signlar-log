@@ -77,32 +77,71 @@ textarea
 
 
 
-
-
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	width:960px;
+border-collapse:collapse;
+border-spacing:0;
+width:960px;
 }
-th  
-{
-    text-align:left;
-    }
-table tr, table th  
-{
-    border:1px solid black;
+
+th {
+text-align:left;
+background-color:Gray;
+color:#FFF;
 }
-table th.level
-{
-    width:50px;
-    }
-     table th.timestamp   
-     {
-         width:250px;
-         }
-tr > td.level{ text-transform:uppercase; }
 
+table tr,table th {
+border:1px solid #000;
+}
 
-th { background-color:Gray;
-     color:White;
-     }
+table th.level {
+width:50px;
+}
+
+table th.timestamp {
+width:250px;
+}
+
+tr > td.level {
+text-transform:uppercase;
+}
+
+.highlight .error {
+color:#FFF;
+background-color:#F08080;
+}
+
+.highlight .warn {
+color:#FFF;
+background-color:orange;
+}
+
+.highlight .trace {
+background-color:#E0F0FF;
+}
+
+.highlight .debug {
+background-color:#476BB2;
+color:#FFF;
+}
+
+.highlight .info {
+background-color:#9CF;
+}
+
+.highlight .fatal {
+color:#FFF;
+background-color:red;
+}
+
+td.level {
+font-weight:700;
+}
+
+td,th {
+border:1px solid #000;
+padding:5px;
+}
+
+.level-filter input {
+padding-right:20px;
+}
