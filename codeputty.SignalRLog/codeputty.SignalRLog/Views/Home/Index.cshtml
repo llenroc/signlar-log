@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/scripts/jquery.signalR.min.js" type="text/javascript"></script>
+<script src="/signalr/hubs" type="text/javascript"></script>
+
+<style type="text/css">
+.highlight .error
+{
+    color:White;
+    background-color:#F08080;
+}
+.highlight  .warn 
+ {
+     color:white;
+     background-color:orange;
+     } 
+.highlight  .trace 
+ {
+     background-color:#E0F0FF;
+     } 
+.highlight  .debug 
+ {
+     background-color:#476BB2;
+     color:White;
+     } 
+.highlight  .info 
+ {
+     background-color:#99CCFF;
+}
+.highlight .fatal  
+{
+     color:White;
+    background-color:#FF0000;
+}
+td.level { font-weight:bold;
+           }
+td, th  
+{
+    padding:5px;
+    border: 1px solid black;
+    }
+.level-filter input  
+{
+   padding-right:20px;    
+}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var maxRows = 50;
+        var rows = 0;
+        var logEndpoint = $.connection.logEndpoint;
+
+        logEndpoint.receiveLogEntry = function (logItem) {
+            var logrow = $("<tr/>").addClass(logItem.Level)
+            .append($("<td/>", { text: logItem.Level }).addClass("level"))
+            .append($("<td/>", { text: logItem.Timestamp }))
+            .append($("<td/>", { text: logItem.Message }))
+
+            $("#logtable tbody").prepend(logrow);
+            logrow.hide().fadeIn();
+
+            if (rows++ >= maxRows) {
+                $("table tr").last().remove();
+            }
+        };
+
+        logEndpoint.setTotalUsers = function (numUsers) {
+            $("#total-users").text(numUsers);
+        };
+
+
+        $.connection.hub.start();
+
+        $("#color-toggle").click(function () {
+            $("#logtable").toggleClass('highlight');
+            return false;
+        });
+
+        $(".level-filter input:checkbox").change(function () {
+            var level = $(this).attr('name');
+            if ($(this).is(":checked")) {
+                console.log("watching " + level);
+                logEndpoint.watchLevel(level);
+            }
+            else {
+                console.log("unwatching " + level);
+                logEndpoint.unwatchLevel(level);
+            }
+        });
+    });
+</script>
+
+<h2>Log Viewer</h2>
+<span>Number of users: <span id="total-users"></span></span>
+<div class="level-filter">
+<span>Trace:</span><input type="checkbox" name="trace"/>
+<span>Debug:</span><input type="checkbox" name="debug" checked="checked" />
+<span>Info:</span><input type="checkbox" name="info" checked="checked" />
+<span>Warn:</span><input type="checkbox" name="warn" checked="checked" />
+<span>Error:</span><input type="checkbox" name="error" checked="checked" />
+<span>Fatal:</span><input type="checkbox" name="fatal" checked="checked" />
+</div>
+<a href="#" id="color-toggle">toggle color</a>
+<table id="logtable" class="highlight"  >
+    <thead><tr><th class="level">Level</th><th class="timestamp">Timestamp</th><th class="message">Message</th></tr></thead>
+<tbody></tbody>
+</table>

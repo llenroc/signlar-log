@@ -1,0 +1,10 @@
+bin/
+obj/
+*.suo
+*.csproj.user
+TestResults/
+*.zip
+src/SharePlay/SharePlay.Web/Content/uploads/*.sc2replay
+src/SharePlay/SharePlay.Web/Logs/*.log*
+src/SharePlay/SharePlay.Web/App_Data/Elmah.Errors/*.xml
+*ReSharper*
