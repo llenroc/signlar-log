@@ -65,10 +65,14 @@ namespace codeputty.SignalRLog.Models
 
         public System.Threading.Tasks.Task Reconnect(IEnumerable<string> groups)
         {
+            //leaving this out for now since this was firing repeatedly from browsers at the office.
+/*
             _logger.Trace(string.Format("{0}.{1}", GetType().Name, MethodBase.GetCurrentMethod().Name));
             _logger.Info("User reconnected.  Id: " + Context.ConnectionId);
             _clientIds.Add(Context.ConnectionId);
             return UpdateTotalClients();
+*/
+            return null;
         }
 
         public System.Threading.Tasks.Task Disconnect()
