@@ -23,6 +23,15 @@
             if (rows++ >= maxRows) {
                 $("table tr").last().remove();
             }
+
+            appendAndScroll(function () {
+                $(".tail-wrap pre").append(logItem.Timestamp + " " + logItem.Level.toUpperCase() + " " + logItem.Message + "\n");
+            });
+
+
+            if ($(".tail-wrap").is(":visible")) {
+                autoScroll();
+            }
         };
 
         logEndpoint.setTotalUsers = function (numUsers) {
@@ -37,17 +46,27 @@
             return false;
         });
 
+        $("#display-toggle").click(function () {
+            $(".table-wrap, .tail-wrap").toggleClass('hidden');
+        });
+
         $(".level-filter input:checkbox").change(function () {
             var level = $(this).attr('name');
             if ($(this).is(":checked")) {
-                console.log("watching " + level);
                 logEndpoint.watchLevel(level);
             }
             else {
-                console.log("unwatching " + level);
                 logEndpoint.unwatchLevel(level);
             }
         });
+
+        function appendAndScroll(appendFunc) {
+            var shouldScroll = ($(document).scrollTop() + $(window).height()) === $(document).height();
+            appendFunc();
+            if (shouldScroll) {
+                $(window).scrollTop(document.body.scrollHeight);
+            }
+        }
     });
 </script>
 
@@ -61,8 +80,15 @@
 <span>Error:</span><input type="checkbox" name="error" checked="checked" />
 <span>Fatal:</span><input type="checkbox" name="fatal" checked="checked" />
 </div>
+<a href="#" id="display-toggle">toggle table/tail</a>
+<div class="table-wrap">
 <a href="#" id="color-toggle">toggle color</a>
 <table id="logtable" class="highlight"  >
     <thead><tr><th class="level">Level</th><th class="timestamp">Timestamp</th><th class="message">Message</th></tr></thead>
 <tbody></tbody>
 </table>
+</div>
+<div class="tail-wrap hidden">
+<pre>
+</pre>
+</div>
